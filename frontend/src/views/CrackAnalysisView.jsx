@@ -38,21 +38,20 @@ export default function CrackAnalysisView() {
         <div className="view-title-group">
           <h2>
             <Activity size={28} color="var(--rose-danger)" />
-            <span>Structural Defect & Crack Diagnostics (Multimodal AI)</span>
+            <span>Defect Analysis</span>
           </h2>
           <p className="view-description">
-            High-precision computer vision aperture measurement, structural risk scoring, and code-compliant 
-            epoxy/CFRP rehabilitation specifications per ACI 224R and ASTM C881.
+            Structural crack detection and repair recommendations.
           </p>
         </div>
 
-        <button 
+        <button
           className="btn btn-primary"
           onClick={runAnalysis}
           disabled={loading}
         >
           <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-          <span>{loading ? 'Evaluating...' : 'Re-Analyze Defect'}</span>
+          <span>{loading ? 'Analyzing...' : 'Analyze'}</span>
         </button>
       </div>
 

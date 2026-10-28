@@ -1,29 +1,29 @@
 import React from 'react';
-import { 
-  Building2, 
-  ShieldAlert, 
-  Activity, 
-  DollarSign, 
-  CalendarDays, 
-  ClipboardList, 
-  CloudSun, 
-  BookOpenCheck, 
-  Layers, 
+import {
+  Building2,
+  ShieldAlert,
+  Activity,
+  IndianRupee,
+  CalendarDays,
+  ClipboardList,
+  CloudSun,
+  BookOpenCheck,
+  Layers,
   FileCheck2,
   Code2
 } from 'lucide-react';
 
 export default function Navbar({ activeTab, setActiveTab, onOpenContracts, onOpenAudit, systemHealthy }) {
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: Building2 },
-    { id: 'safety', label: 'Site Safety (PPE)', icon: ShieldAlert },
-    { id: 'cracks', label: 'Crack Analysis', icon: Activity },
-    { id: 'valuation', label: 'Valuation Studio', icon: DollarSign },
-    { id: 'planning', label: 'WBS & Schedule', icon: CalendarDays },
-    { id: 'logs', label: 'Daily Site Logs', icon: ClipboardList },
-    { id: 'weather', label: 'Weather Advisory', icon: CloudSun },
-    { id: 'knowledge', label: 'Standards & QA/QC', icon: BookOpenCheck },
-    { id: 'multimodal', label: 'Multimodal Studio', icon: Layers }
+    { id: 'overview', label: 'Dashboard', icon: Building2 },
+    { id: 'safety', label: 'Safety Monitor', icon: ShieldAlert },
+    { id: 'cracks', label: 'Defect Analysis', icon: Activity },
+    { id: 'valuation', label: 'Valuation', icon: IndianRupee },
+    { id: 'planning', label: 'Planning', icon: CalendarDays },
+    { id: 'logs', label: 'Site Logs', icon: ClipboardList },
+    { id: 'weather', label: 'Weather', icon: CloudSun },
+    { id: 'knowledge', label: 'Knowledge Base', icon: BookOpenCheck },
+    { id: 'multimodal', label: 'Inspection', icon: Layers }
   ];
 
   return (
@@ -35,11 +35,11 @@ export default function Navbar({ activeTab, setActiveTab, onOpenContracts, onOpe
           </div>
           <div>
             <div className="brand-title">
-              <span>Multimodal Construction Intelligence</span>
-              <span className="brand-badge">v2.0 ENTERPRISE</span>
+              <span>BuildIQ Analytics</span>
+              <span className="brand-badge">PRO</span>
             </div>
             <div style={{ fontSize: '0.74rem', color: 'var(--text-dim)', letterSpacing: '0.02em' }}>
-              Full-Stack Decision Support • FastApi & React • Multimodal LLM
+              Smart Construction Intelligence Platform
             </div>
           </div>
         </div>

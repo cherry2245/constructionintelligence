@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DollarSign, TrendingUp, Building, Award, BarChart3, Calculator, CheckCircle2 } from 'lucide-react';
+import { IndianRupee, TrendingUp, Building, Award, BarChart3, Calculator, CheckCircle2 } from 'lucide-react';
 import { estimateValuation } from '../services/api';
 
 export default function RealEstateValuationView() {
@@ -49,22 +49,21 @@ export default function RealEstateValuationView() {
       <div className="view-header">
         <div className="view-title-group">
           <h2>
-            <DollarSign size={28} color="var(--emerald-success)" />
-            <span>Real Estate & Construction Valuation Studio</span>
+            <IndianRupee size={28} color="var(--emerald-success)" />
+            <span>Property Valuation</span>
           </h2>
           <p className="view-description">
-            Algorithmic real estate valuation blending construction grade specifications, floor-rise appreciation, 
-            ESG LEED certifications, hedonic regression, and prime market comparables.
+            AI-powered property valuation with market intelligence and construction grade analysis.
           </p>
         </div>
 
-        <button 
+        <button
           className="btn btn-primary"
           onClick={runCalculation}
           disabled={loading}
         >
           <Calculator size={16} />
-          <span>{loading ? 'Recalculating...' : 'Update Valuation Model'}</span>
+          <span>{loading ? 'Calculating...' : 'Calculate'}</span>
         </button>
       </div>
 
@@ -172,12 +171,12 @@ export default function RealEstateValuationView() {
               <div>
                 <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>ESTIMATED TOTAL ASSET VALUATION</span>
                 <div style={{ fontSize: '2.5rem', fontWeight: 800, color: 'var(--emerald-success)' }}>
-                  ${(valData?.estimated_total_value_usd || 0).toLocaleString()}
+                  ₹{(valData?.estimated_total_value_usd || 0).toLocaleString()}
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <span className="badge badge-emerald" style={{ fontSize: '0.85rem' }}>
-                  ${valData?.price_per_sqft_usd}/sqft
+                  ₹{Math.round((valData?.price_per_sqft_usd || 0) * 83.5).toLocaleString()}/sqft
                 </span>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: '4px' }}>
                   5-Yr Projected ROI: {valData?.roi_projection_5yr_annualized}%
@@ -187,8 +186,8 @@ export default function RealEstateValuationView() {
 
             {/* Valuation Range */}
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-dim)', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '10px' }}>
-              <span>Conservative Min: ${(valData?.value_range_min_usd || 0).toLocaleString()}</span>
-              <span>Optimistic Max: ${(valData?.value_range_max_usd || 0).toLocaleString()}</span>
+              <span>Conservative Min: ₹{((valData?.value_range_min_usd || 0) * 83.5).toLocaleString()}</span>
+              <span>Optimistic Max: ₹{((valData?.value_range_max_usd || 0) * 83.5).toLocaleString()}</span>
             </div>
           </div>
 
@@ -208,7 +207,7 @@ export default function RealEstateValuationView() {
                   </div>
                   <div style={{ textAlign: 'right' }}>
                     <div className="mono" style={{ fontWeight: 700, fontSize: '0.84rem' }}>
-                      ${(factor.contribution_amount_usd / 1000).toLocaleString()}k
+                      ₹{((factor.contribution_amount_usd / 1000) * 83.5).toLocaleString()}k
                     </div>
                     <span className="badge badge-amber" style={{ fontSize: '0.68rem' }}>
                       {factor.weight_percentage}%
@@ -230,7 +229,7 @@ export default function RealEstateValuationView() {
                     <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)', marginLeft: '8px' }}>({comp.distance_km} km away)</span>
                   </div>
                   <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                    <span className="mono">${comp.price_per_sqft}/sqft</span>
+                    <span className="mono">₹{Math.round(comp.price_per_sqft * 83.5).toLocaleString()}/sqft</span>
                     <span className="badge badge-cyan">{Math.round(comp.similarity_index * 100)}% Match</span>
                   </div>
                 </div>

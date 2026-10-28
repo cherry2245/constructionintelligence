@@ -1,6 +1,6 @@
-# AI-Powered Multimodal Construction Intelligence Platform
+# BuildIQ Analytics Platform
 
-A full-stack, enterprise-grade decision-support system engineered for construction planning, execution, and structural monitoring. Powered by a **FastAPI (Python)** backend and a **React.js** frontend with **Multimodal Large Language Modeling & Computer Vision** intelligence, utilizing strict **JSON/Pydantic v2 data contracts**.
+A smart construction intelligence platform for safety monitoring, structural analysis, property valuation, and project planning. Powered by a **FastAPI (Python)** backend and a **React.js** frontend with **AI-powered analytics** and strict **JSON/Pydantic v2 data contracts**.
 
 ---
 

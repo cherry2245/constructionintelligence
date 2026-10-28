@@ -36,11 +36,10 @@ export default function KnowledgeBotView() {
         <div className="view-title-group">
           <h2>
             <BookOpenCheck size={28} color="var(--amber-400)" />
-            <span>Construction Knowledge & Building Standards Assistant</span>
+            <span>Knowledge Base</span>
           </h2>
           <p className="view-description">
-            Interactive AI decision support providing verified building code citations (IBC 2024, ACI 318, 
-            OSHA 1926, IS 456:2000, Eurocode 2) and QA/QC structural engineering checklists.
+            Building codes, standards, and QA/QC compliance information.
           </p>
         </div>
       </div>

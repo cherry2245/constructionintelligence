@@ -38,21 +38,20 @@ export default function WeatherAdvisoryView() {
         <div className="view-title-group">
           <h2>
             <CloudSun size={28} color="var(--indigo-accent)" />
-            <span>Weather-Aware Construction Operational Advisory</span>
+            <span>Weather Intelligence</span>
           </h2>
           <p className="view-description">
-            Civil engineering environmental risk prediction: evaluating hourly micro-climate impacts on 
-            ACI 305R concrete hydration, ASME B30.3 tower crane wind thresholds, and excavation stability.
+            Forecast-based operational planning and risk assessment.
           </p>
         </div>
 
-        <button 
+        <button
           className="btn btn-primary"
           onClick={runAdvisory}
           disabled={loading}
         >
           <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-          <span>{loading ? 'Refreshing Radar...' : 'Fetch Weather Radar'}</span>
+          <span>{loading ? 'Updating...' : 'Update'}</span>
         </button>
       </div>
 

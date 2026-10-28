@@ -43,21 +43,20 @@ export default function DailySiteLogView() {
         <div className="view-title-group">
           <h2>
             <ClipboardList size={28} color="var(--amber-400)" />
-            <span>Daily Site Assistant & Automated Shift Log Manager</span>
+            <span>Site Logs</span>
           </h2>
           <p className="view-description">
-            Converts unstructured field notes and supervisor dictation into audit-ready structured shift reports, 
-            subcontractor man-hour accounts, equipment uptime logs, and night handover protocols.
+            AI-powered daily shift log processing and reporting.
           </p>
         </div>
 
-        <button 
+        <button
           className="btn btn-primary"
           onClick={runLogProcessor}
           disabled={loading}
         >
           <Sparkles size={16} />
-          <span>{loading ? 'Synthesizing...' : 'Process Daily Log with AI'}</span>
+          <span>{loading ? 'Processing...' : 'Process Log'}</span>
         </button>
       </div>
 

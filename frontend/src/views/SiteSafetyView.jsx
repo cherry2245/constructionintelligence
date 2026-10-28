@@ -38,22 +38,21 @@ export default function SiteSafetyView() {
         <div className="view-title-group">
           <h2>
             <ShieldAlert size={28} color="var(--amber-400)" />
-            <span>Construction Site Safety Monitoring (PPE & Hazard AI)</span>
+            <span>Safety Monitoring</span>
           </h2>
           <p className="view-description">
-            Multimodal visual surveillance detecting PPE compliance (Hardhats ANSI Z89.1, Hi-Vis Class 2, Harnesses) 
-            and flag OSHA 1926 physical site safety violations in real time.
+            AI-powered PPE detection and hazard identification system.
           </p>
         </div>
 
         <div style={{ display: 'flex', gap: '10px' }}>
-          <button 
+          <button
             className="btn btn-primary"
             onClick={runAnalysis}
             disabled={loading}
           >
             <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-            <span>{loading ? 'Analyzing Site...' : 'Re-Run Computer Vision'}</span>
+            <span>{loading ? 'Analyzing...' : 'Analyze'}</span>
           </button>
         </div>
       </div>

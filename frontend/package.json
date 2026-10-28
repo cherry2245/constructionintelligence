@@ -1,7 +1,7 @@
 {
-  "name": "construction-intelligence-frontend",
-  "version": "2.0.0",
-  "description": "AI-Powered Multimodal Construction Intelligence Platform Frontend",
+  "name": "buildiq-analytics",
+  "version": "1.0.0",
+  "description": "Smart Construction Intelligence Platform",
   "type": "module",
   "scripts": {
     "dev": "vite --host --port 5173",

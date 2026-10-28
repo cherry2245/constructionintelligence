@@ -74,10 +74,10 @@ export default function MultimodalStudioView() {
         <div className="view-title-group">
           <h2>
             <Layers size={28} color="var(--amber-400)" />
-            <span>Multimodal Inspection Hub & Image Annotation Studio</span>
+            <span>Inspection Studio</span>
           </h2>
           <p className="view-description">
-            Unified computer vision workspace: upload site photos, blueprints, and macro close-ups 
+            Upload site photos and run AI-powered analysis. 
             to execute multi-angle AI inference across safety, structural defects, and progress status.
           </p>
         </div>

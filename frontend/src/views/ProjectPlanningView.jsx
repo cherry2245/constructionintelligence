@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CalendarDays, GitBranch, DollarSign, Clock, RefreshCw, Zap, AlertTriangle } from 'lucide-react';
+import { CalendarDays, GitBranch, IndianRupee, Clock, RefreshCw, Zap, AlertTriangle } from 'lucide-react';
 import GanttChart from '../components/GanttChart';
 import { generateProjectPlan } from '../services/api';
 
@@ -39,21 +39,20 @@ export default function ProjectPlanningView() {
         <div className="view-title-group">
           <h2>
             <CalendarDays size={28} color="var(--amber-400)" />
-            <span>AI Construction Project Planning & WBS Scheduling</span>
+            <span>Project Planning</span>
           </h2>
           <p className="view-description">
-            Automated Work Breakdown Structure (WBS), Critical Path Method (CPM) calculation, 
-            resource crew allocation, and contingency budget modeling.
+            Schedule optimization, critical path analysis, and resource allocation.
           </p>
         </div>
 
-        <button 
+        <button
           className="btn btn-primary"
           onClick={runPlanGeneration}
           disabled={loading}
         >
           <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-          <span>{loading ? 'Optimizing Schedule...' : 'Regenerate WBS Plan'}</span>
+          <span>{loading ? 'Generating...' : 'Regenerate'}</span>
         </button>
       </div>
 
@@ -66,12 +65,12 @@ export default function ProjectPlanningView() {
         </div>
         <div className="metric-card emerald">
           <span className="metric-label">CALCULATED TARGET BUDGET</span>
-          <div className="metric-value">${((planData?.calculated_total_budget_usd || 24500000) / 1000000).toFixed(1)}M</div>
+          <div className="metric-value">₹{(((planData?.calculated_total_budget_usd || 24500000) * 83.5) / 10000000).toFixed(1)}Cr</div>
           <div className="metric-subtext">All Phases Inclusive</div>
         </div>
         <div className="metric-card cyan">
           <span className="metric-label">CONTINGENCY RESERVE</span>
-          <div className="metric-value">${((planData?.contingency_fund_usd || 1960000) / 1000000).toFixed(2)}M</div>
+          <div className="metric-value">₹{(((planData?.contingency_fund_usd || 1960000) * 83.5) / 10000000).toFixed(2)}Cr</div>
           <div className="metric-subtext">8.0% Risk Buffer</div>
         </div>
         <div className="metric-card indigo">
@@ -94,7 +93,7 @@ export default function ProjectPlanningView() {
         {/* Budget Allocation Breakdown */}
         <div className="glass-panel" style={{ padding: '24px' }}>
           <h3 style={{ fontSize: '1.1rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <DollarSign size={18} color="var(--emerald-success)" />
+            <IndianRupee size={18} color="var(--emerald-success)" />
             <span>Phase-by-Phase Budget Allocation & Contingencies</span>
           </h3>
 
@@ -106,8 +105,8 @@ export default function ProjectPlanningView() {
                   <span className="badge badge-amber">{cat.percentage_of_total}%</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                  <span>Base: ${(cat.budget_usd / 1000).toLocaleString()}k</span>
-                  <span style={{ color: 'var(--cyan-accent)' }}>Contingency: ${(cat.contingency_reserve_usd / 1000).toLocaleString()}k</span>
+                  <span>Base: ₹{((cat.budget_usd * 83.5) / 100000).toLocaleString()}L</span>
+                  <span style={{ color: 'var(--cyan-accent)' }}>Contingency: ₹{((cat.contingency_reserve_usd * 83.5) / 100000).toLocaleString()}L</span>
                 </div>
               </div>
             ))}
