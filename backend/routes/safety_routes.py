@@ -4,7 +4,7 @@ import base64
 from backend.models.safety_schemas import SiteSafetyAnalysisRequest, SiteSafetyAnalysisResponse
 from backend.services.safety_engine import safety_engine
 
-router = APIRouter(prefix="/api/safety", tags=["Site Safety Monitoring"])
+router = APIRouter(prefix="/safety", tags=["Site Safety Monitoring"])
 
 @router.post("/analyze", response_model=SiteSafetyAnalysisResponse)
 async def analyze_site_safety(request: SiteSafetyAnalysisRequest):

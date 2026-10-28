@@ -114,3 +114,19 @@ def test_site_audit_report():
     data = response.json()
     assert len(data["risk_radar"]) == 5
     assert len(data["engineer_signoff_hash"]) == 64
+
+def test_direct_routes_without_api_prefix():
+    # Direct /health
+    res = client.get("/health")
+    assert res.status_code == 200
+    assert res.json()["status"] == "healthy"
+
+    # Direct /safety/analyze
+    res = client.post("/safety/analyze", json={"project_name": "P1", "zone": "Z1"})
+    assert res.status_code == 200
+    assert "overall_safety_score" in res.json()
+
+    # Direct /report/generate
+    res = client.post("/report/generate", json={"project_name": "P1", "auditor_name": "Auditor"})
+    assert res.status_code == 200
+    assert len(res.json()["risk_radar"]) == 5

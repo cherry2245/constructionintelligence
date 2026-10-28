@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from backend.models.knowledge_schemas import KnowledgeQueryRequest, KnowledgeQueryResponse
 from backend.services.knowledge_engine import knowledge_engine
 
-router = APIRouter(prefix="/api/knowledge", tags=["Construction Knowledge Assistant"])
+router = APIRouter(prefix="/knowledge", tags=["Construction Knowledge Assistant"])
 
 @router.post("/query", response_model=KnowledgeQueryResponse)
 async def query_knowledge_base(request: KnowledgeQueryRequest):

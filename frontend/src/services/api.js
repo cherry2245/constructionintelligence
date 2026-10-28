@@ -1,10 +1,51 @@
 // API Client for BuildIQ Analytics Platform
-const API_BASE = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
+
+function getApiBase() {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (!envUrl || typeof envUrl !== 'string' || !envUrl.trim()) {
+    return '/api';
+  }
+  const trimmed = envUrl.trim().replace(/\/+$/, '');
+  if (!trimmed || trimmed === '/') {
+    return '/api';
+  }
+  // Ensure the base URL includes /api so endpoints like /safety/analyze route properly
+  if (trimmed.endsWith('/api')) {
+    return trimmed;
+  }
+  return `${trimmed}/api`;
+}
+
+const API_BASE = getApiBase();
+
+async function handleResponse(res, defaultErrorMsg) {
+  if (res.ok) {
+    return res.json();
+  }
+  let detail = `${res.status} ${res.statusText}`;
+  try {
+    const errorJson = await res.json();
+    if (errorJson && typeof errorJson === 'object') {
+      if (errorJson.detail) {
+        detail = typeof errorJson.detail === 'string' ? errorJson.detail : JSON.stringify(errorJson.detail);
+      } else if (errorJson.message) {
+        detail = errorJson.message;
+      } else if (errorJson.error) {
+        detail = errorJson.error;
+      }
+    }
+  } catch (_) {
+    try {
+      const text = await res.text();
+      if (text) detail = text.slice(0, 150);
+    } catch (_) {}
+  }
+  throw new Error(`${defaultErrorMsg} (${detail})`);
+}
 
 export async function checkHealth() {
   const res = await fetch(`${API_BASE}/health`);
-  if (!res.ok) throw new Error('Health check failed');
-  return res.json();
+  return handleResponse(res, 'Health check failed');
 }
 
 export async function analyzeSiteSafety(payload) {
@@ -13,8 +54,7 @@ export async function analyzeSiteSafety(payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!res.ok) throw new Error('Safety analysis failed');
-  return res.json();
+  return handleResponse(res, 'Safety analysis failed');
 }
 
 export async function analyzeCrack(payload) {
@@ -23,8 +63,7 @@ export async function analyzeCrack(payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!res.ok) throw new Error('Crack analysis failed');
-  return res.json();
+  return handleResponse(res, 'Crack analysis failed');
 }
 
 export async function estimateValuation(payload) {
@@ -33,8 +72,7 @@ export async function estimateValuation(payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!res.ok) throw new Error('Valuation calculation failed');
-  return res.json();
+  return handleResponse(res, 'Valuation calculation failed');
 }
 
 export async function generateProjectPlan(payload) {
@@ -43,8 +81,7 @@ export async function generateProjectPlan(payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!res.ok) throw new Error('Project planning failed');
-  return res.json();
+  return handleResponse(res, 'Project planning failed');
 }
 
 export async function processDailyLog(payload) {
@@ -53,8 +90,7 @@ export async function processDailyLog(payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!res.ok) throw new Error('Daily log processing failed');
-  return res.json();
+  return handleResponse(res, 'Daily log processing failed');
 }
 
 export async function getWeatherAdvisory(payload) {
@@ -63,8 +99,7 @@ export async function getWeatherAdvisory(payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!res.ok) throw new Error('Weather advisory failed');
-  return res.json();
+  return handleResponse(res, 'Weather advisory failed');
 }
 
 export async function queryKnowledge(payload) {
@@ -73,8 +108,7 @@ export async function queryKnowledge(payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!res.ok) throw new Error('Knowledge query failed');
-  return res.json();
+  return handleResponse(res, 'Knowledge query failed');
 }
 
 export async function generateAuditReport(payload) {
@@ -83,6 +117,5 @@ export async function generateAuditReport(payload) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!res.ok) throw new Error('Audit report generation failed');
-  return res.json();
+  return handleResponse(res, 'Audit report generation failed');
 }

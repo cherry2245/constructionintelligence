@@ -4,7 +4,7 @@ import base64
 from backend.models.crack_schemas import CrackAnalysisRequest, CrackAnalysisResponse
 from backend.services.crack_analyzer import crack_analyzer
 
-router = APIRouter(prefix="/api/crack", tags=["Crack Detection & Analysis"])
+router = APIRouter(prefix="/crack", tags=["Crack Detection & Analysis"])
 
 @router.post("/analyze", response_model=CrackAnalysisResponse)
 async def analyze_crack(request: CrackAnalysisRequest):

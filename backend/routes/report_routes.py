@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from backend.models.report_schemas import SiteAuditReportRequest, SiteAuditReportResponse
 from backend.services.report_engine import report_engine
 
-router = APIRouter(prefix="/api/report", tags=["Audit & Executive Reporting"])
+router = APIRouter(prefix="/report", tags=["Audit & Executive Reporting"])
 
 @router.post("/generate", response_model=SiteAuditReportResponse)
 async def generate_audit_report(request: SiteAuditReportRequest):

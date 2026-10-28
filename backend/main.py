@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 
 from backend.routes.safety_routes import router as safety_router
 from backend.routes.crack_routes import router as crack_router
@@ -29,14 +29,24 @@ app.add_middleware(
 )
 
 # Register all 8 epic API routers
-app.include_router(safety_router)
-app.include_router(crack_router)
-app.include_router(valuation_router)
-app.include_router(planning_router)
-app.include_router(daily_log_router)
-app.include_router(weather_router)
-app.include_router(knowledge_router)
-app.include_router(report_router)
+api_routers = [
+    safety_router,
+    crack_router,
+    valuation_router,
+    planning_router,
+    daily_log_router,
+    weather_router,
+    knowledge_router,
+    report_router,
+]
+
+# 1. Primary standard registration with /api prefix (e.g. /api/safety/analyze)
+for r in api_routers:
+    app.include_router(r, prefix="/api")
+
+# 2. Dual direct registration without /api prefix (e.g. /safety/analyze) for backwards/client compatibility
+for r in api_routers:
+    app.include_router(r)
 
 # Mount sample images directory if present
 sample_dir = os.path.join(os.path.dirname(__file__), "sample_data")
@@ -53,6 +63,7 @@ if os.path.exists(frontend_dist_dir):
     if os.path.exists(assets_dir):
         app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
+@app.get("/health")
 @app.get("/api/health")
 async def health_check():
     return {
@@ -63,6 +74,7 @@ async def health_check():
         "engine_mode": "Multimodal AI + High-Fidelity Domain Engines"
     }
 
+@app.get("/info")
 @app.get("/api/info")
 async def platform_info():
     return {
@@ -81,10 +93,29 @@ async def platform_info():
         "data_contract_specification": "Strict JSON / Pydantic v2 Validated"
     }
 
-from fastapi.responses import FileResponse
+API_ROUTE_PREFIXES = (
+    "api/", "safety", "crack", "valuation", "planning",
+    "daily-log", "weather", "knowledge", "report", "health", "info"
+)
 
-@app.get("/{full_path:path}")
-async def serve_spa(full_path: str):
+@app.api_route("/{full_path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD"], include_in_schema=False)
+async def serve_spa_or_fallback(request: Request, full_path: str):
+    clean_path = full_path.lstrip("/")
+    
+    # If this looks like an API route that wasn't matched above, return a clean JSON 404
+    if clean_path.startswith("api/") or any(clean_path.startswith(prefix) for prefix in API_ROUTE_PREFIXES):
+        return JSONResponse(
+            status_code=404,
+            content={"error": "Not Found", "message": f"API endpoint /{clean_path} does not exist."}
+        )
+
+    # For non-GET requests to web pages, return 405 Method Not Allowed
+    if request.method not in ("GET", "HEAD"):
+        return JSONResponse(
+            status_code=405,
+            content={"error": "Method Not Allowed", "message": f"Method {request.method} not allowed for /{clean_path}"}
+        )
+
     if os.path.exists(frontend_dist_dir):
         candidate = os.path.join(frontend_dist_dir, full_path)
         if full_path and os.path.isfile(candidate):
@@ -92,6 +123,7 @@ async def serve_spa(full_path: str):
         index_file = os.path.join(frontend_dist_dir, "index.html")
         if os.path.exists(index_file):
             return FileResponse(index_file)
+
     return JSONResponse(
         status_code=404,
         content={"error": "Frontend build not found. Run 'npm run build' inside frontend/."}
