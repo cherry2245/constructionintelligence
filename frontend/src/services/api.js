@@ -1,5 +1,5 @@
-// API Client for AI-Powered Multimodal Construction Intelligence Platform
-const API_BASE = '/api';
+// API Client for BuildIQ Analytics Platform
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 export async function checkHealth() {
   const res = await fetch(`${API_BASE}/health`);

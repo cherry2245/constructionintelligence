@@ -1,7 +1,7 @@
 services:
-  # Unified Full-Stack Web Service (FastAPI Backend + React Frontend SPA)
+  # FastAPI Backend Service
   - type: web
-    name: construction-ai-platform
+    name: buildiq-backend
     env: python
     region: oregon
     plan: free
